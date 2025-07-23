@@ -1,0 +1,15 @@
+{
+  "originHash" : "ea2e79c94b4789a80f15981ba2832c5e4c3c9061345664e3a6f2e3d137d7cb3d",
+  "pins" : [
+    {
+      "identity" : "jot",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattmassicotte/Jot",
+      "state" : {
+        "revision" : "0826782b0489dc76249b5def7d69f38684e5cb7f",
+        "version" : "0.1.1"
+      }
+    }
+  ],
+  "version" : 3
+}
