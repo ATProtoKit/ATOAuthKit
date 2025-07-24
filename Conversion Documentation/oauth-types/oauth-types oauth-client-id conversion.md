@@ -1,4 +1,4 @@
-#  Conversion for `oauth-types/src/oauth-client-id.ts`
+# Conversion for `oauth-types/src/oauth-client-id.ts`
 
 ## `export const oauthClientIdSchema = z.string().min(1)`
 
