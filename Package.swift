@@ -30,6 +30,12 @@ let package = Package(
                 .product(name: "Jot", package: "jot")
             ]
         ),
+        .target(
+            name: "OAuthTypesLab",
+            dependencies: [
+                .product(name: "Jot", package: "jot")
+            ]
+        ),
         .testTarget(
             name: "ATOAuthKitTests",
             dependencies: ["ATOAuthKit"]
