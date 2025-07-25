@@ -45,7 +45,8 @@ public enum LoopbackHost: String, CaseIterable {
 /// - Parameter host: The string to check.
 /// - Returns: `true` if the string is a loopback host, or `false` if it's not.
 public func isLoopbackHost(_ host: String) -> Bool {
-    return LoopbackHost.allCases.contains { $0.rawValue == host }
+    guard let urlHost = URL(string: host)?.host() else { return false }
+    return LoopbackHost.allCases.contains { $0.rawValue == urlHost }
 }
 
 /// Determines whether the host of the `URL` is a loopback host.
