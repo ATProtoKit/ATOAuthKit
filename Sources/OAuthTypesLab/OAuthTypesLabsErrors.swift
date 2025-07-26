@@ -74,3 +74,76 @@ public enum OAuthTypesLabsURIError: Error, LocalizedError, CustomStringConvertib
         return errorDescription ?? String(describing: self)
     }
 }
+
+/// Errors that can occur with respect to authorization responses.
+///
+/// - SeeAlso: https://openid.net/specs/openid-connect-core-1_0.html#AuthError
+public enum OAuthTypesLabsAuthorizationResponseError: Error, LocalizedError, CustomStringConvertible {
+
+    /// The authorization server needs user interaction to proceed.
+    ///
+    /// This error may occur when the prompt parameter in the authentication request is none, but the
+    /// request can’t be completed without a user interface.
+    case interactionRequired
+
+    /// The authorization server needs authentication by the user.
+    ///
+    /// This error may occur when the prompt parameter in the authentication request is none, but the
+    /// request can’t be completed without a user interface for user authentication.
+    case loginRequired
+
+    /// The user must select a session at the authorization server.
+    ///
+    /// They can authenticate with different accounts, but they didn’t select a session. This error occurs
+    /// when the prompt parameter in the authentication request is none, but the Authentication Request
+    /// needs a user interface to prompt for a session.
+    case accountSelectionRequired
+
+    /// The authorization server needs consent from the user.
+    ///
+    /// This error may occur when the prompt parameter value in the authentication request is none, but the
+    /// authentication request can’t be completed without showing a user interface for user consent.
+    case consentRequired
+
+    /// The authorization request’s `requestURI` is invalid or returns an error.
+    case invalidRequestURI
+
+    /// The request parameter is invalid.
+    case invalidRequestObject
+
+    /// The OpenID Provider opposes the use of the request parameter specified in Section 6.
+    case requestNotSupported
+
+    /// The OpenID Provider opposes the use of the `requestURI` parameter specified in Section 6.
+    case requestURINotSupported
+
+    /// The OpenID Provider opposes the use of the registration parameter specified in Section 7.2.1.
+    case registrationNotSupported
+
+    public var errorDescription: String? {
+        switch self {
+            case .interactionRequired:
+                return "The authorization server requires interaction with the user."
+            case .loginRequired:
+                return "The user must log in to the authorization server."
+            case .accountSelectionRequired:
+                return "The user must select an account."
+            case .consentRequired:
+                return "The user must consent to the authorization request."
+            case .invalidRequestURI:
+                return "The authorization request's `requestURI` is invalid or returns an error."
+            case .invalidRequestObject:
+                return "The request parameter is invalid."
+            case .requestNotSupported:
+                return "The authorization server does not support the use of the 'request' parameter in this context."
+            case .requestURINotSupported:
+                return "The authorization server does not support the use of the 'requestURI' parameter in this context."
+            case .registrationNotSupported:
+                return "The authorization server does not support the use of the 'registration' parameter in this context."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
