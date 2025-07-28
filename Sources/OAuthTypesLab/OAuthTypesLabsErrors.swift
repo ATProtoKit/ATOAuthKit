@@ -202,6 +202,29 @@ public enum OAuthAuthorizationResponseError: Error, LocalizedError, CustomString
     }
 }
 
+/// Errors that can occur with respect to redirect URIs.
+public enum OAuthRedirectURIError: Error, LocalizedError, CustomStringConvertible {
+
+    /// Use of `localhost` hostname has been detected in the URI.
+    case localhostDetected
+
+    /// The URI lacks either the "http" or "https" protocol.
+    case noValidProtocol
+
+    public var errorDescription: String? {
+        switch self {
+            case .localhostDetected:
+                return "'localhost' hostname has been detected and is not allowed. Use a loopback IP such as '127.0.0.1' instead."
+            case .noValidProtocol:
+                return "The redirect URI must start with either 'http://' or 'https://'."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 

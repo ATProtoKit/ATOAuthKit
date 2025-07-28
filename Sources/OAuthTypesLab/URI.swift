@@ -31,18 +31,29 @@ public enum URI {
         return true
     }
 
-    /// Validates the URI to ensure it's a loopback URI.
-    ///
-    /// - Parameter uriString: The URI in its string representation to validate.
-    ///
-    /// - Throws: An error if the "https" protocol isn't included, or the loopback URI is invalid.
-    public static func validateLoopbackURI(uriString: String) throws {
-        guard uriString.starts(with: "http://") else {
-            throw OAuthTypesLabsURIError.noHTTPProtocol
+    /// A structure representing a loopback redirect URI.
+    public struct LoopbackRedirectURI {
+        public let rawValue: String
+
+        public var description: String {
+            return rawValue
         }
 
-        guard isLoopbackHost(uriString) else {
-            throw OAuthTypesLabsURIError.invalidLoopbackURI
+        /// Validates the specified raw value, then creates a new instance.
+        ///
+        /// This checks to see if there's a loopback redirect URI as the hostname.
+        ///
+        /// - Parameter rawValue: The raw value to validate and use for the new instance.
+        public init(validating rawValue: String) throws {
+            guard rawValue.starts(with: "http://") else {
+                throw OAuthTypesLabsURIError.noHTTPProtocol
+            }
+
+            guard isLoopbackHost(rawValue) else {
+                throw OAuthTypesLabsURIError.invalidLoopbackURI
+            }
+
+            self.rawValue = rawValue
         }
     }
 
@@ -80,13 +91,13 @@ public enum URI {
 
     /// Validates a web URI.
     ///
-    /// This is a method that combines ``validateLoopbackURI(uriString:)``
+    /// This is a method that combines ``LoopbackRedirectURI/init(validating:)``
     /// and ``validateHTTPSURI(uriString:)``.
     ///
     /// - Parameter uriString: The URI in its string representation to validate.
     public static func validateWebURI(uriString: String) throws {
         if uriString.starts(with: "http://") {
-            try URI.validateLoopbackURI(uriString: uriString)
+            _ = try URI.LoopbackRedirectURI(validating: uriString)
         } else if uriString.starts(with: "https://") {
             try URI.validateHTTPSURI(uriString: uriString)
         } else {
@@ -94,29 +105,47 @@ public enum URI {
         }
     }
 
-    /// Validates the URI for private use.
     ///
-    /// - Parameter uri: The URI in its string representation to validate.
-    public static func validatePrivateUseURI(uriString: String) throws {
-        guard let dotIndex = uriString.firstIndex(of: "."),
-              let colonIndex = uriString.firstIndex(of: ":") else {
-            throw OAuthTypesLabsURIError.missingDotOrColon
+    public struct PrivateUseURI {
+        public let rawValue: String
+
+        public var description: String {
+            return rawValue
         }
 
-        guard dotIndex < colonIndex else {
-            throw OAuthTypesLabsURIError.dotAfterColon
-        }
+        /// Validates the specified raw value, then creates a new instance.
+        ///
+        /// This checks to see if the value is a private use URI. The initializer will fail if:
+        /// * there's a missing dot (`.`) or colon (`:`),
+        /// * there's a dot {`.`) _after_ the colon (`:`),
+        /// * the URL is invalid,
+        /// * the protocol is invalid, or
+        /// * the hostname exists in the URI.
+        ///
+        /// - Parameter rawValue: The raw value to validate and use for the new instance.
+        public init(validating rawValue: String) throws {
+            guard let dotIndex = rawValue.firstIndex(of: "."),
+                  let colonIndex = rawValue.firstIndex(of: ":") else {
+                throw OAuthTypesLabsURIError.missingDotOrColon
+            }
 
-        guard let url = URL(string: uriString) else {
-            throw OAuthTypesLabsURIError.invalidURL
-        }
+            guard dotIndex < colonIndex else {
+                throw OAuthTypesLabsURIError.dotAfterColon
+            }
 
-        guard url.scheme?.contains(".") != nil else {
-            throw OAuthTypesLabsURIError.noValidProtocol
-        }
+            guard let url = URL(string: rawValue) else {
+                throw OAuthTypesLabsURIError.invalidURL
+            }
 
-        guard url.host() == nil else {
-            throw OAuthTypesLabsURIError.containsHostnameInPrivateUseURI
+            guard url.scheme?.contains(".") == true else {
+                throw OAuthTypesLabsURIError.noValidProtocol
+            }
+
+            guard url.host() == nil else {
+                throw OAuthTypesLabsURIError.containsHostnameInPrivateUseURI
+            }
+
+            self.rawValue = rawValue
         }
     }
 }

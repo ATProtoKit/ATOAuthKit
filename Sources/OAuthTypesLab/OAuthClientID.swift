@@ -9,21 +9,14 @@
 ///
 /// The string can only have one character. The struct will throw away any extra characters if it
 /// sees more than one character.
-public struct OAuthClientID: ExpressibleByStringLiteral {
-
-    /// The private container for the ID.
-    private var privateStringValue: String
-
-    /// The value of the ID.
-    public var stringValue: String {
-        get {
-            return privateStringValue
-        } set {
-            privateStringValue = String(newValue.prefix(1))
-        }
+public struct OAuthClientID: CustomStringConvertible {
+    public var description: String {
+        return rawValue
     }
 
-    public init(stringLiteral value: String) {
-        self.privateStringValue = value
+    public let rawValue: String
+
+    public init(validating rawValue: String) {
+        self.rawValue = String(rawValue.prefix(1))
     }
 }
