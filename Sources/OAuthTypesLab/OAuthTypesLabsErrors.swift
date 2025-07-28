@@ -148,10 +148,64 @@ public enum OAuthTypesLabsAuthorizationResponseError: Error, LocalizedError, Cus
     }
 }
 
+/// Errors that can occur with respect to authorization response.
+///
+/// - SeeAlso: https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1-12#name-error-response-2
+public enum OAuthAuthorizationResponseError: Error, LocalizedError, CustomStringConvertible {
+
+    /// The request is invalid due to missing or incorrect parameters.
+    case invalidRequest
+
+    /// The client is not authorized to request an authorization code using this method.
+    case unauthorizedClient
+
+    /// The resource owner or authorization server refused the request.
+    case accessDenied
+
+    /// This method is not supported for obtaining an authorization code from the authorization server.
+    case unsupportedResponseType
+
+    /// The requested scope is invalid, unknown, or malformed.
+    case invalidScope
+
+    /// The authorization server couldn’t fulfill the request due to an unexpected condition.
+    ///
+    /// This error code is needed because a 500 Internal Server Error HTTP status code can’t be returned to the client via an HTTP redirect.
+    case serverError
+
+    /// The authorization server is temporarily overloaded or under maintenance, so it can’t handle the request.
+    ///
+    /// This error code is needed because a 503 Service Unavailable HTTP status code can’t be returned via an HTTP redirect.
+    case temporarilyUnavailable
+
+    public var errorDescription: String? {
+        switch self {
+            case .invalidRequest:
+                return "The request is invalid due to missing or incorrect parameters."
+            case .unauthorizedClient:
+                return "The client is not authorized to request an authorization code using this method."
+            case .accessDenied:
+                return "The resource owner or authorization server refused the request."
+            case .unsupportedResponseType:
+                return "This method is not supported for obtaining an authorization code from the authorization server."
+            case .invalidScope:
+                return "The requested scope is invalid, unknown, or malformed."
+            case .serverError:
+                return "The authorization server couldn’t fulfill the request due to an unexpected condition."
+            case .temporarilyUnavailable:
+                return "The authorization server is temporarily overloaded or under maintenance, so it can’t handle the request."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 
-    /// THe value found was incorrect.
+    /// The value found was incorrect.
     ///
     /// - Parameters:
     ///   - expectedValue: The value expected to be found.
