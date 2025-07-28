@@ -22,7 +22,7 @@ public enum OAuthResponse: String {
     /// An access token directly from the authorization endpoint.
     ///
     /// - Note: OAuth 2.0 Implicit Grant\
-    /// Value: `token`
+    /// Corresponds to: `token`
     case implicitGrant = "token"
 
     // OpenID Connect response types
@@ -31,13 +31,13 @@ public enum OAuthResponse: String {
     /// Used primarily for requests that only perform authentication.
     ///
     /// - Note: OpenID Connect\
-    /// Value: `none`
+    /// Corresponds to: `none`
     case none = "none"
 
     /// Returns an authorization code, ID token, and access token in a single response.
     ///
     /// - Note: OpenID Connect Hybrid Flow\
-    /// Value: `code id_token token`
+    /// Corresponds to: `code id_token token`
     case codeIDTokenToken = "code id_token token"
 
 
@@ -50,18 +50,18 @@ public enum OAuthResponse: String {
     /// Returns an authorization code and an access token.
     ///
     /// - Note: OpenID Connect Hybrid Flow\
-    /// Value: `code token`
+    /// Corresponds to: `code token`
     case codeToken = "code token"
 
     /// Returns an ID token and an access token.
     ///
     /// - Note: OpenID Connect Implicit or Hybrid Flow\
-    /// Value: `id_token token`
+    /// Corresponds to: `id_token token`
     case idTokenToken = "id_token token"
 
     /// Returns only an ID token (no access token or code).
     ///
     /// - Note: OpenID Connect Implicit Flow\
-    /// Value: `id_token`
+    /// Corresponds to: `id_token`
     case idToken = "id_token"
 }
