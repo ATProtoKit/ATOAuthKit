@@ -147,3 +147,25 @@ public enum OAuthTypesLabsAuthorizationResponseError: Error, LocalizedError, Cus
         return errorDescription ?? String(describing: self)
     }
 }
+
+/// Errors that can occur with respect to validations.
+public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
+
+    /// THe value found was incorrect.
+    ///
+    /// - Parameters:
+    ///   - expectedValue: The value expected to be found.
+    ///   - foundValue: The value that was found instead.
+    case incorrectValue(expectedValue: String, foundValue: String)
+
+    public var errorDescription: String? {
+        switch self {
+            case .incorrectValue(let expectedValue, let foundValue):
+                return "Incorrect value. Expected: '\(expectedValue)', found: '\(foundValue)'."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
