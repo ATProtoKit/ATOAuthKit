@@ -9,7 +9,8 @@
 ///
 /// The string can only have one character. The struct will throw away any extra characters if it
 /// sees more than one character.
-public struct OAuthClientID: CustomStringConvertible {
+public struct OAuthClientID: Codable, CustomStringConvertible {
+
     public var description: String {
         return rawValue
     }
@@ -18,5 +19,16 @@ public struct OAuthClientID: CustomStringConvertible {
 
     public init(validating rawValue: String) {
         self.rawValue = String(rawValue.prefix(1))
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self.init(validating: value)
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }

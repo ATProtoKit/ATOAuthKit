@@ -7,10 +7,10 @@
 
 /// An enumeration representing the allowed OAuth and OpenID Connect response types.
 ///
-/// - SeeAlso: \
+/// - SeeAlso:\
 /// \* OAuth2: https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1-10#section-4.1.1\
 /// \* OpenID Connect: https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-public enum OAuthResponse: String {
+public enum OAuthResponse: String, Codable {
 
     // OAuth2 response types
     /// An authorization code to be exchanged for tokens.

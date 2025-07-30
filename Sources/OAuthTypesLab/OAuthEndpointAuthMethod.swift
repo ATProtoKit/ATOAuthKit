@@ -7,7 +7,7 @@
 
 /// An enumeration. representing the supported client authentication methods for OAuth 2.0 and
 /// OpenID Connect token and authorization endpoints.
-public enum OAuthEndpointAuthMethod: String {
+public enum OAuthEndpointAuthMethod: String, Codable {
 
     /// Client authentication using HTTP Basic Authentication with the client ID and client secret.
     ///

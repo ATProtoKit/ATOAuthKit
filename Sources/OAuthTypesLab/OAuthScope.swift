@@ -12,7 +12,7 @@ import Foundation
 /// Each OAuth scope defines what permissions or access a client is requesting from the user.
 /// This enum provides a helper for validating if a given scope string matches the expected
 /// pattern, making it easier to check user input or API responses when working with OAuth.
-public struct OAuthScope: CustomStringConvertible {
+public struct OAuthScope: Codable, CustomStringConvertible {
 
     public let rawValue: String
 
@@ -26,7 +26,7 @@ public struct OAuthScope: CustomStringConvertible {
     /// the exception of a backslash (`\`) or double quote (`"`).
     ///
     /// - Parameter rawValue: The raw value to validate and use for the new instance.
-    public init?(rawValue: String) throws {
+    public init?(validating rawValue: String) throws {
         do {
             let pattern = #"^[\x21\x23-\x5B\x5D-\x7E]+(?: [\x21\x23-\x5B\x5D-\x7E]+)*$"#
 
@@ -42,5 +42,23 @@ public struct OAuthScope: CustomStringConvertible {
             // If the regex fails for whatever reason, throw an error. However, this should never happen.
             throw error
         }
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+
+        guard let instance = try Self.init(validating: value) else {
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Invalid OAuthScope value: \(value)"
+            )
+        }
+        self = instance
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }

@@ -6,7 +6,7 @@
 //
 
 /// A structure representing a loopback redirect URI.
-public struct OAuthLoopbackRedirectURI: CustomStringConvertible {
+public struct OAuthLoopbackRedirectURI: Codable, CustomStringConvertible {
     public let rawValue: String
 
     public var description: String {
@@ -25,10 +25,21 @@ public struct OAuthLoopbackRedirectURI: CustomStringConvertible {
         }
         self.rawValue = rawValue
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        try self.init(validating: value)
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
 }
 
 /// An enumeration that defines the possible types of OAuth redirect URIs.
-public enum OAuthRedirectURI {
+public enum OAuthRedirectURI: Codable {
 
     /// A loopback redirect URI using the `http://localhost` scheme.
     case oauthLoopbackRedirectURI(OAuthLoopbackRedirectURI)
@@ -39,15 +50,30 @@ public enum OAuthRedirectURI {
     /// A private-use URI scheme (custom protocol handler).
     case oauthPrivateUseRedirectURI(URI.PrivateUseURI)
 
-    public init(validating rawValue: String) throws {
-        if let value = try? OAuthLoopbackRedirectURI(validating: rawValue) {
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let stringValue = try container.decode(String.self)
+
+        if let value = try? OAuthLoopbackRedirectURI(validating: stringValue) {
             self = .oauthLoopbackRedirectURI(value)
-        } else if let value = try? URI.LoopbackRedirectURI(validating: rawValue) {
+        } else if let value = try? URI.LoopbackRedirectURI(validating: stringValue) {
             self = .oauthHTTPSRedirectURI(value)
-        } else if let value = try? URI.PrivateUseURI(validating: rawValue) {
+        } else if let value = try? URI.PrivateUseURI(validating: stringValue) {
             self = .oauthPrivateUseRedirectURI(value)
         } else {
             throw OAuthRedirectURIError.noValidProtocol
+        }
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+            case .oauthLoopbackRedirectURI(let value):
+                try container.encode(value.rawValue)
+            case .oauthHTTPSRedirectURI(let value):
+                try container.encode(value.rawValue)
+            case .oauthPrivateUseRedirectURI(let value):
+                try container.encode(value.rawValue)
         }
     }
 }

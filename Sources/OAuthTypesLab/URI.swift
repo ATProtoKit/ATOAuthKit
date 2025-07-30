@@ -32,7 +32,7 @@ public enum URI {
     }
 
     /// A structure representing a loopback redirect URI.
-    public struct LoopbackRedirectURI: CustomStringConvertible {
+    public struct LoopbackRedirectURI: Codable, CustomStringConvertible {
         public let rawValue: String
 
         public var description: String {
@@ -89,24 +89,49 @@ public enum URI {
         }
     }
 
-    /// Validates a web URI.
-    ///
-    /// This is a method that combines ``LoopbackRedirectURI/init(validating:)``
-    /// and ``validateHTTPSURI(uriString:)``.
-    ///
-    /// - Parameter uriString: The URI in its string representation to validate.
-    public static func validateWebURI(uriString: String) throws {
-        if uriString.starts(with: "http://") {
-            _ = try URI.LoopbackRedirectURI(validating: uriString)
-        } else if uriString.starts(with: "https://") {
-            try URI.validateHTTPSURI(uriString: uriString)
-        } else {
-            throw OAuthTypesLabsURIError.noHTTPProtocol
+    /// A structure representing a Web URI.
+    public struct WebURI: CustomStringConvertible, Codable {
+
+        public let rawValue: String
+
+        public var description: String {
+            return rawValue
+        }
+
+        /// Validates the specified raw value, then creates a new instance.
+        ///
+        /// This is a method that combines ``LoopbackRedirectURI/init(validating:)``
+        /// and ``validateHTTPSURI(uriString:)``.
+        ///
+        /// - Parameter rawValue: The raw value to validate and use for the new instance.
+        public init(validating rawValue: String) throws {
+            if rawValue.starts(with: "http://") {
+                _ = try URI.LoopbackRedirectURI(validating: rawValue)
+
+                self.rawValue = rawValue
+            } else if rawValue.starts(with: "https://") {
+                try URI.validateHTTPSURI(uriString: rawValue)
+
+                self.rawValue = rawValue
+            } else {
+                throw OAuthTypesLabsURIError.noHTTPProtocol
+            }
+        }
+
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let value = try container.decode(String.self)
+            try self.init(validating: value)
+        }
+
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(rawValue)
         }
     }
 
     ///
-    public struct PrivateUseURI: CustomStringConvertible {
+    public struct PrivateUseURI: Codable, CustomStringConvertible {
         public let rawValue: String
 
         public var description: String {
@@ -146,6 +171,17 @@ public enum URI {
             }
 
             self.rawValue = rawValue
+        }
+
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let value = try container.decode(String.self)
+            try self.init(validating: value)
+        }
+
+        public func encode(to encoder: any Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(rawValue)
         }
     }
 }

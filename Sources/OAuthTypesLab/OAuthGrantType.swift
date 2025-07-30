@@ -6,7 +6,7 @@
 //
 
 /// An enumeration of OAuth 2.0 grant types used to obtain access tokens.
-public enum OAuthGrantType: String {
+public enum OAuthGrantType: String, Codable {
 
     /// The "Authorization Code" grant type.
     ///
