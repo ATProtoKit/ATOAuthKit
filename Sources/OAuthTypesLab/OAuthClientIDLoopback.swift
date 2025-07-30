@@ -126,7 +126,7 @@ public struct ClientIDLoopback: CustomStringConvertible {
         if scopeItems.count > 1 {
             throw OAuthClientIDLoopbackError.multipleScopeParameters
         } else if let scopeValue = scopeItems.first?.value {
-            scope = try OAuthScope(rawValue: scopeValue)
+            scope = try OAuthScope(validating: scopeValue)
         }
 
         // 6. Parse redirect_uris (must be valid according to OAuthLoopbackRedirectURI)
