@@ -225,6 +225,48 @@ public enum OAuthRedirectURIError: Error, LocalizedError, CustomStringConvertibl
     }
 }
 
+/// Errors that can occur with related to ``ClientIDLoop``.
+public enum OAuthClientIDLoopbackError: Error, LocalizedError, CustomStringConvertible {
+
+    /// The client ID is invalid.
+    ///
+    /// - Parameter prefix: The prefix of the client ID.
+    case invalidClientID(prefix: String)
+
+    /// A hash component was contained in the loopback client ID.
+    case containsHashComponent
+
+    /// A path component was contained in the loopback client ID.
+    case containsPathComponent
+
+    /// The query parameter is invalid.
+    ///
+    /// - Parameter name: The name of the query parameter.
+    case invalidQueryParameter(name: String)
+
+    /// There is at least two parameters named `scope`.
+    case multipleScopeParameters
+
+    public var errorDescription: String? {
+        switch self {
+            case .invalidClientID(let prefix):
+                return "Loopback Client ID must start with \"\(prefix)\"."
+            case .containsHashComponent:
+                return "Loopback Client ID cannot contain a hash component."
+            case .containsPathComponent:
+                return "Loopback Client ID cannot contain a path component."
+            case .invalidQueryParameter(let name):
+                return "Loopback Client ID cannot contain a query parameter \"\(name)\"."
+            case .multipleScopeParameters:
+                return "Loopback Client ID cannot contain multiple scope parameters."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 
