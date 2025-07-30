@@ -32,7 +32,7 @@ public enum URI {
     }
 
     /// A structure representing a loopback redirect URI.
-    public struct LoopbackRedirectURI {
+    public struct LoopbackRedirectURI: CustomStringConvertible {
         public let rawValue: String
 
         public var description: String {
@@ -106,7 +106,7 @@ public enum URI {
     }
 
     ///
-    public struct PrivateUseURI {
+    public struct PrivateUseURI: CustomStringConvertible {
         public let rawValue: String
 
         public var description: String {
