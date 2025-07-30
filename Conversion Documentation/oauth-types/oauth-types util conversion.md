@@ -40,10 +40,6 @@ Swift equivalent:
 public func isLoopbackURL(_ input: URL) -> Bool
 ```
 
-## `export function isLoopbackUrl(input: URL | string): boolean`
-
-This has been converted.
-
 The method will only accept `URL` objects for safety reasons.
 
 ## `export function safeUrl(input: URL | string): URL | null
