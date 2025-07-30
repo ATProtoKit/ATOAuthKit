@@ -53,7 +53,7 @@ public func isLoopbackHost(_ host: String) -> Bool {
 ///
 /// - Parameter input: The `URL` object to check.
 /// - Returns: `true` if it's a loopback address, or `false` if not.
-public func isLoopbackUrl(_ input: URL) -> Bool {
+public func isLoopbackURL(_ input: URL) -> Bool {
     guard let host = input.host else {
         return false
     }
