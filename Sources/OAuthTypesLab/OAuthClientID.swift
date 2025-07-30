@@ -6,9 +6,6 @@
 //
 
 /// An ID tag for the OAuth client.
-///
-/// The string can only have one character. The struct will throw away any extra characters if it
-/// sees more than one character.
 public struct OAuthClientID: Codable, CustomStringConvertible {
 
     public var description: String {
@@ -18,7 +15,7 @@ public struct OAuthClientID: Codable, CustomStringConvertible {
     public let rawValue: String
 
     public init(validating rawValue: String) {
-        self.rawValue = String(rawValue.prefix(1))
+        self.rawValue = rawValue
     }
 
     public init(from decoder: any Decoder) throws {
