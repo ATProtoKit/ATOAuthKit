@@ -19,16 +19,31 @@ public enum URI {
         return true
     }
 
-    /// Determines whether the URI in its string representation is a dangerous URI
-    ///
-    /// Common URIs include `javascript:`, `file:`, `data:` etc.
-    ///
-    /// - Parameter uriString: The URI to check.
-    /// - Returns: `true` if it is a dangerous URI, or `false` if not.
-    public static func isDangerousURI(uriString: String) -> Bool {
-        guard uriString.contains(":") else { return false }
-        guard let url = URL(string: uriString), url.scheme != nil else { return false }
-        return true
+    /// A structure representing a potentially dangerous URI.
+    public struct DangerousURI: CustomStringConvertible {
+
+        public let rawValue: String
+
+        public var description: String {
+            return rawValue
+        }
+
+        public init?(validating rawValue: String) {
+            guard DangerousURI.isURIValid(uriString: rawValue) == true else { return nil }
+            self.rawValue = rawValue
+        }
+
+        /// Determines whether the URI in its string representation is a dangerous URI
+        ///
+        /// Common URIs include `javascript:`, `file:`, `data:` etc.
+        ///
+        /// - Parameter uriString: The URI to check.
+        /// - Returns: `true` if it is a dangerous URI, or `false` if not.
+        public static func isURIValid(uriString: String) -> Bool {
+            guard uriString.contains(":") else { return false }
+            guard let url = URL(string: uriString), url.scheme != nil else { return false }
+            return true
+        }
     }
 
     /// A structure representing a loopback redirect URI.

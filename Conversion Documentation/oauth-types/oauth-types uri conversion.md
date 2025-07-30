@@ -17,10 +17,8 @@ This has been converted.
 Swift equivalent:
 
 ```swift
-public static func isDangerousURI(uriString: String) -> Bool
+public struct DangerousURI: CustomStringConvertible
 ```
-
-It's now a function instead of a variable.
 
 ## `export const loopbackUriSchema`
 
