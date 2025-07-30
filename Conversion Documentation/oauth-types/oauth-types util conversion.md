@@ -4,9 +4,19 @@
 
 This has been converted.
 
-## `export type LoopbackHost = 'localhost' | '127.0.0.1' | '[::1]'`
+Swift equivalent:
+
+```swift
+public func isHostnameIPAddress(_ hostname: String) -> Bool
+```
+
+## `export type LoopbackHost`
 
 This has been converted.
+
+```swift
+public enum LoopbackHost: String, CaseIterable
+```
 
 It's been converted into an `enum`.
 
@@ -14,9 +24,21 @@ It's been converted into an `enum`.
 
 This has been converted.
 
+Swift equivalent:
+
+```swift
+public func isLoopbackHost(_ host: String) -> Bool
+```
+
 ## `export function isLoopbackUrl(input: URL | string): boolean`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public func isLoopbackURL(_ input: URL) -> Bool
+```
 
 ## `export function isLoopbackUrl(input: URL | string): boolean`
 
