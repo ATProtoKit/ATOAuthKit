@@ -19,7 +19,8 @@ let package = Package(
             targets: ["ATOAuthKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/mattmassicotte/Jot.git", from: "0.1.1")
+        .package(url: "https://github.com/mattmassicotte/Jot.git", from: "0.1.1"),
+        .package(url: "https://github.com/vapor/jwt-kit.git", from: "5.2.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +28,8 @@ let package = Package(
         .target(
             name: "ATOAuthKit",
             dependencies: [
-                .product(name: "Jot", package: "jot")
+                .product(name: "Jot", package: "jot"),
+                .product(name: "JWTKit", package: "jwt-kit")
             ]
         ),
         .target(
