@@ -111,7 +111,7 @@ public extension JWTShapeValidating {
 /// to see if the shape of the JWT exists (that is, a Base64-encoded string with three sections
 /// (separated by a dot (`.`)). This does **not** validate the signature, nor does it decode
 /// the header and payload.
-public struct SignedJWT: CustomStringConvertible, JWTShapeValidating {
+public struct SignedJWT: CustomStringConvertible, Codable, JWTShapeValidating {
     public let rawValue: String
 
     public var description: String {
@@ -129,6 +129,24 @@ public struct SignedJWT: CustomStringConvertible, JWTShapeValidating {
         guard Self.isValidJWTShape(rawValue, expectedDotCount: 3) == true else { return nil }
         self.rawValue = rawValue
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+
+        guard let instance = Self.init(validating: value) else {
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Invalid OAuthScope value: \(value)"
+            )
+        }
+        self = instance
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
 }
 
 /// A structure representing a signed JSON Web Token (JWT).
@@ -136,7 +154,7 @@ public struct SignedJWT: CustomStringConvertible, JWTShapeValidating {
 /// This includes the header and payload. This `struct`'s initializer will only check to see if
 /// the shape of the JWT exists (that is, a Base64-encoded string with two sections (separated
 /// by a dot (`.`)). This does **not** decode the header and payload.
-public struct UnsignedJWT: CustomStringConvertible, JWTShapeValidating {
+public struct UnsignedJWT: CustomStringConvertible, Codable, JWTShapeValidating {
     public let rawValue: String
 
     public var description: String {
@@ -153,6 +171,24 @@ public struct UnsignedJWT: CustomStringConvertible, JWTShapeValidating {
     public init?(validating rawValue: String) {
         guard Self.isValidJWTShape(rawValue, expectedDotCount: 2) == true else { return nil }
         self.rawValue = rawValue
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+
+        guard let instance = Self.init(validating: value) else {
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Invalid OAuthScope value: \(value)"
+            )
+        }
+        self = instance
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 

@@ -7,7 +7,7 @@
 
 /// An enumeration representing the code challenge methods supported in OAuth 2.0 and
 /// OpenID Connect flows.
-public enum OAuthCodeChallengeMethod: String {
+public enum OAuthCodeChallengeMethod: String, Codable {
 
     /// The `S256` method.
     ///

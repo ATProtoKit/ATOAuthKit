@@ -10,7 +10,7 @@
 /// When processing OpenID Connect data, it helps to distinguish a `userinfo` object (a plain
 /// JSON profile) from an `id_token` (JWT token). This distinction helps to apply the correct
 /// validation, decoding, and trust rules.
-public enum OpenIDConnectEntityType: String {
+public enum OpenIDConnectEntityType: String, Codable {
 
     /// A user profile object.
     case userInfo = "userinfo"

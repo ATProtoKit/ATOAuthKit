@@ -7,7 +7,7 @@
 
 /// An enumeration representing the method used to return OAuth authorization responses to
 /// the client.
-public enum OAuthResponseMode: String {
+public enum OAuthResponseMode: String, Codable {
 
     /// The response parameters are encoded in the query string of the redirect URI.
     case query
