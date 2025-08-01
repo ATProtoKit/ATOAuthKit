@@ -65,10 +65,12 @@ If there's a situation where a host is needed, throw an error.
 
 This is unneeded and will not be converted.
 
-Swift has `JSONDecoder`, which will throw an error if the JSON object doesn't have the starting curly brace (`{`) or ending curly brace (`}`).
+When decoding JSON in Swift, you use `JSONDecoder`, which expects valid JSON data. If the string is not valid JSON (doesn't start/end with the left curly brace (`{`) and right curly brace (`}`)), decoding will fail with a clear error, so extra preprocessing is unnecessary.
 
 ## `export const numberPreprocess = (val: unknown): unknown`
 
 This is redundant and will not be converted.
 
-`Int()` is able to convert a `String` object to an `Int`. If you need a number that's a decimal, then use `Double()` instead.
+In Swift, convert a `String` object to an `Int` using `Int(string)` (or `Double(string)` for floating point), which returns `nil` if the conversion fails.
+
+If your data source might have ambiguous types, handle type-checking and conversion explicitly using Swift’s type system and optionals.
