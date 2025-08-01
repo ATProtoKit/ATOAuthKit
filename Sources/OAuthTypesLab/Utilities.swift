@@ -60,3 +60,108 @@ public func isLoopbackURL(_ input: URL) -> Bool {
 
     return isLoopbackHost(host)
 }
+
+// MARK: ATOAuthKit-specific -
+
+/// A protocol that defines validation for the basic "shape" of a JWT-like token string.
+///
+/// This protocol provides a method to check if a string conforms to the structural requirements
+/// of a JWT (JSON Web Token) or JWT-inspired format, focusing only on the raw string's shape
+/// and allowed characters, not on the contents or cryptographic validity of the token.
+public protocol JWTShapeValidating {
+
+    /// Validates whether the given string conforms to the expected shape of a JWT-like token.
+    ///
+    /// This validation includes:
+    /// - Ensuring all characters are allowed (A–Z, a–z, 0–9, '+', '/', '=', '.').
+    /// - Verifying the number of dot (`.`) separators matches the expected count (e.g., two for a signed
+    /// JWT, one for unsigned).
+    /// - Requiring the string length to be a multiple of four.
+    /// - Ensuring that each section (delimited by dots) is non-empty.
+    ///
+    /// - Note: This method does **not** validate the contents, padding, or cryptographic signature of the
+    /// JWT, nor does it decode or parse its sections. It only checks the shape of the raw value.
+    ///
+    /// - Parameters:
+    ///   - rawValue: The string value to validate.
+    ///   - expectedDotCount: The exact number of dot (`.`) characters expected in the string.
+    /// - Returns: `true` if the string meets all validation criteria, or `false` if not.
+    static func isValidJWTShape(_ rawValue: String, expectedDotCount: Int) -> Bool
+}
+
+public extension JWTShapeValidating {
+    static func isValidJWTShape(_ rawValue: String, expectedDotCount: Int) -> Bool {
+        let base64DotSet = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=.")
+
+        guard rawValue.unicodeScalars.allSatisfy({ base64DotSet.contains($0) }) else { return false }
+
+        let dotCount = rawValue.filter { $0 == "." }.count
+        guard dotCount == expectedDotCount else { return false }
+
+        let parts = rawValue.split(separator: ".", omittingEmptySubsequences: false)
+        guard parts.allSatisfy({ !$0.isEmpty }) else { return false }
+
+        return true
+    }
+}
+
+/// A structure representing a signed JSON Web Token (JWT).
+///
+/// This includes the header, payload, and signature. This `struct`'s initializer will only check
+/// to see if the shape of the JWT exists (that is, a Base64-encoded string with three sections
+/// (separated by a dot (`.`)). This does **not** validate the signature, nor does it decode
+/// the header and payload.
+public struct SignedJWT: CustomStringConvertible, JWTShapeValidating {
+    public let rawValue: String
+
+    public var description: String {
+        return rawValue
+    }
+
+    /// Validates the specified raw value, then creates a new instance.
+    ///
+    /// This initializer will check for:
+    /// * Whether the string contains three sections, separated by a string.
+    /// * Whether the string contains only the characters allowed for Base64.
+    ///
+    /// - Parameter rawValue: The raw value to validate and use for the new instance.
+    public init?(validating rawValue: String) {
+        guard Self.isValidJWTShape(rawValue, expectedDotCount: 3) == true else { return nil }
+        self.rawValue = rawValue
+    }
+}
+
+/// A structure representing a signed JSON Web Token (JWT).
+///
+/// This includes the header and payload. This `struct`'s initializer will only check to see if
+/// the shape of the JWT exists (that is, a Base64-encoded string with two sections (separated
+/// by a dot (`.`)). This does **not** decode the header and payload.
+public struct UnsignedJWT: CustomStringConvertible, JWTShapeValidating {
+    public let rawValue: String
+
+    public var description: String {
+        return rawValue
+    }
+
+    /// Validates the specified raw value, then creates a new instance.
+    ///
+    /// This initializer will check for:
+    /// * Whether the string contains two sections, separated by a string.
+    /// * Whether the string contains only the characters allowed for Base64.
+    ///
+    /// - Parameter rawValue: The raw value to validate and use for the new instance.
+    public init?(validating rawValue: String) {
+        guard Self.isValidJWTShape(rawValue, expectedDotCount: 2) == true else { return nil }
+        self.rawValue = rawValue
+    }
+}
+
+/// An enum representing either a signed or unsigned JSON Web Token (JWT).
+public enum JWT {
+
+    /// A signed JWT.
+    case signed(SignedJWT)
+
+    /// An unsigned JWT.
+    case unsigned(UnsignedJWT)
+}
