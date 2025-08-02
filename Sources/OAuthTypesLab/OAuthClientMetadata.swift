@@ -17,7 +17,7 @@ public struct ClientMetadata: Codable {
     public let redirectURIs: [OAuthRedirectURI]
 
     /// An array of supported response types for authorization requests.
-    public let responseTypes: [OAuthResponse]
+    public let responseTypes: [OAuthResponseType]
 
     /// Supported OAuth grant types.
     public let grantTypes: [OAuthGrantType]
@@ -124,7 +124,7 @@ public struct ClientMetadata: Codable {
 
     public init(
         redirectURIs: [OAuthRedirectURI],
-        responseTypes: [OAuthResponse] = [.authorizationCodeGrant],
+        responseTypes: [OAuthResponseType] = [.authorizationCodeGrant],
         grantTypes: [OAuthGrantType] = [.authorizationCode],
         scope: OAuthScope?,
         tokenEndpointAuthMethod: OAuthEndpointAuthMethod? = .clientSecretBasic,
