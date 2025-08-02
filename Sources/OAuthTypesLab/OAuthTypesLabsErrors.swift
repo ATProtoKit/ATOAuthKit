@@ -267,6 +267,44 @@ public enum OAuthClientIDLoopbackError: Error, LocalizedError, CustomStringConve
     }
 }
 
+/// Errors that can occur with respect to redirect URIs.
+public enum OAuthIssuerIdentifierError: Error, LocalizedError, CustomStringConvertible {
+
+    /// Issuer URL contained a slash (`/`) at the end.
+    case issurURLEndsWithSlash
+
+    /// The URL provided was invalid.
+    case invalidURL
+
+    /// The URL provided contains a username or password.
+    case usernameOrPasswordDetected
+
+    /// The URL provided contains a query or fragment.
+    case queryOrFragmentDetected
+
+    /// The URL provided is not in its canonical form.
+    case notInCanonicalForm
+
+    public var errorDescription: String? {
+        switch self {
+            case .issurURLEndsWithSlash:
+                return "Issuer URL must not end with a slash."
+            case .invalidURL:
+                return "The URL provided was invalid."
+            case .usernameOrPasswordDetected:
+                return "The URL provided should not contain a username or password."
+            case .queryOrFragmentDetected:
+                return "The URL provided should not contain a query or fragment."
+            case .notInCanonicalForm:
+                return "The URL provided is not in the canonical form."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 
