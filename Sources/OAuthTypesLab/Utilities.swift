@@ -193,11 +193,36 @@ public struct UnsignedJWT: CustomStringConvertible, Codable, JWTShapeValidating 
 }
 
 /// An enum representing either a signed or unsigned JSON Web Token (JWT).
-public enum JWT {
+public enum JWT: Codable {
 
     /// A signed JWT.
     case signed(SignedJWT)
 
     /// An unsigned JWT.
     case unsigned(UnsignedJWT)
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+
+        if let value = try? container.decode(SignedJWT.self) {
+            self = .signed(value)
+        } else if let value = try? container.decode(UnsignedJWT.self) {
+            self = .unsigned(value)
+        } else {
+            throw DecodingError.typeMismatch(
+                JWT.self, DecodingError.Context(
+                    codingPath: decoder.codingPath, debugDescription: "Unknown JWT type"))
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+
+        switch self {
+            case .signed(let value):
+                try container.encode(value)
+            case .unsigned(let value):
+                try container.encode(value)
+        }
+    }
 }
