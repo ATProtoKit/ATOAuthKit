@@ -3,3 +3,9 @@
 ## `export const oauthPasswordGrantTokenRequestSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public struct OAuthPasswordGrantTokenRequest: Codable
+```

@@ -3,3 +3,9 @@
 ## `export const oidcEntityTypeSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public enum OpenIDConnectEntityType: String, Codable
+```

@@ -3,3 +3,9 @@
 ## `export const oauthParResponseSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public struct OAuthPARResponse: Codable
+```

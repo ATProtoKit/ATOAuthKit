@@ -3,3 +3,9 @@
 ## `export const oauthResponseTypeSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public enum OAuthResponseType: String, Codable
+```

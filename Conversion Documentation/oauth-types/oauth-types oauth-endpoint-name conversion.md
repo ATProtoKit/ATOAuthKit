@@ -3,3 +3,9 @@
 ## `export const OAUTH_ENDPOINT_NAMES`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public enum OAuthEndpointName: String
+```

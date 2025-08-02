@@ -3,3 +3,9 @@
 ## `export const oauthAccessTokenSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public struct OAuthAccessToken: RawRepresentable
+```

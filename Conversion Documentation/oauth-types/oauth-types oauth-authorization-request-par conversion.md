@@ -2,7 +2,7 @@
 
 ## `export const oauthAuthorizationRequestParSchema`
 
-This is been converted.
+This has been converted.
 
 Swift equivalent:
 

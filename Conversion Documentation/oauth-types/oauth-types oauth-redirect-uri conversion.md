@@ -4,6 +4,12 @@
 
 This has been converted.
 
+Swift equivalent:
+
+```swift
+public struct OAuthLoopbackRedirectURI: Codable, CustomStringConvertible
+```
+
 ## `export const oauthHttpsRedirectURISchema`
 
 This is redundant and will not be converted.
@@ -19,3 +25,7 @@ This is simply a copy of `export const privateUseUriSchema`. Use this directly i
 ## `export const oauthRedirectUriSchema`
 
 This has been converted.
+
+```swift
+public enum OAuthRedirectURI: Codable
+```

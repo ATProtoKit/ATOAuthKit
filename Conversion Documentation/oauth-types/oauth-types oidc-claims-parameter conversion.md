@@ -3,3 +3,9 @@
 ## `export const oidcClaimsParameterSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public enum OpenIDConnectClaimsParameter: String, CaseIterable, Codable
+```

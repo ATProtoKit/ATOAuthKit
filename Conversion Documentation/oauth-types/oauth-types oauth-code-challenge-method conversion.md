@@ -3,3 +3,9 @@
 ## `export const oauthCodeChallengeMethodSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public enum OAuthCodeChallengeMethod: String, Codable
+```

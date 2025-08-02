@@ -3,3 +3,9 @@
 ## `export const oauthGrantTypeSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public enum OAuthGrantType: String, Codable
+```

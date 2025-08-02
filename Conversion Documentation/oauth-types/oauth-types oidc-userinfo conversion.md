@@ -3,3 +3,9 @@
 ## `export const oidcUserinfoSchema`
 
 This has been converted.
+
+Swift equivalent:
+
+```swift
+public struct OpenIDConnectUserInfo: Codable
+```

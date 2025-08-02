@@ -4,4 +4,10 @@
 
 This has been converted.
 
+Swift equivalent:
+
+```swift
+public struct OAuthRefreshToken: RawRepresentable
+```
+
 This was converted into a `struct`.

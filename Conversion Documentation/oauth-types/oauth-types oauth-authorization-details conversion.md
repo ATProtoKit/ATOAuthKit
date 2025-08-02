@@ -4,6 +4,8 @@
 
 This has been converted.
 
+Swift equivalent:
+
 ```swift
 public struct AuthorizationDetail: Codable
 ```

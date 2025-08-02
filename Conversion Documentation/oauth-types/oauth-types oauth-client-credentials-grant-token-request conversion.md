@@ -4,4 +4,10 @@
 
 This has been converted.
 
+Swift equivalent:
+
+```swift
+public struct OAuthClientCredentialsGrantTokenRequest: Decodable
+```
+
 The `struct` conforms to `Decodable`. Decoding fails if the `grantType` property is not "client_credentials".

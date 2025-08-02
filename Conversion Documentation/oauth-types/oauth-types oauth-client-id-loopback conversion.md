@@ -4,6 +4,8 @@
 
 This has been converted.
 
+Swift equivalent:
+
 ```swift
 public static let prefix
 ```
@@ -11,6 +13,8 @@ public static let prefix
 ## `export const oauthClientIdLoopbackSchema`
 
 This has been converted.
+
+Swift equivalent:
 
 ```swift
 public struct ClientIDLoopback: CustomStringConvertible
@@ -24,6 +28,8 @@ public init(validating rawValue: String) throws
 ## `export function isOAuthClientIdLoopback(clientId: string,): clientId is OAuthClientIdLoopback`
 
 This has been converted.
+
+Swift equivalent:
 
 ```swift
 public static func isLoopbackClientID(_ clientID: String) -> Bool
@@ -40,6 +46,8 @@ This is a TypeScript pattern that's unnecessary in Swift.
 }`
 
 This has been converted.
+
+Swift equivalent:
 
 ```swift
 public static func parseOAuthLoopbackClientID(_ clientID: String) throws -> (scope: OAuthScope?, redirectURIs: [String]?)?
