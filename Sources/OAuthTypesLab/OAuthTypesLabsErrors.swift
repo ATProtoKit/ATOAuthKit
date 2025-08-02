@@ -305,6 +305,35 @@ public enum OAuthIssuerIdentifierError: Error, LocalizedError, CustomStringConve
     }
 }
 
+/// Errors that can occur with respect to authorization server metadata.
+public enum OAuthAuthorizationServerMetadataError: Error, CustomStringConvertible {
+
+    /// `pushedAuthorizationRequestEndpoint` is required when
+    /// `arePushedAuthorizationRequestsRequired`" is `true`.
+    case pushedAuthorizationRequestEndpointRequired
+
+    /// Response type `code` is required in `responseTypesSupported`.
+    case responseTypeCodeRequired
+
+    /// Client authentication method `none` is not allowed in `tokenEndpointAuthSigningAlgorithmValuesSupported`.
+    case tokenEndpointAuthSigningAlgNoneNotAllowed
+
+    public var errorDescription: String? {
+        switch self {
+            case .pushedAuthorizationRequestEndpointRequired:
+                return "\"pushedAuthorizationRequestEndpoint\" required when \"arePushedAuthorizationRequestsRequired\" is true."
+            case .responseTypeCodeRequired:
+                return "Response type \"code\" is required in \"responseTypesSupported\"."
+            case .tokenEndpointAuthSigningAlgNoneNotAllowed:
+                return "Client authentication method \"none\" is not allowed in \"tokenEndpointAuthSigningAlgorithmValuesSupported\"."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 
