@@ -137,7 +137,7 @@ public struct SignedJWT: CustomStringConvertible, Codable, JWTShapeValidating {
         guard let instance = Self.init(validating: value) else {
             throw DecodingError.dataCorruptedError(
                 in: container,
-                debugDescription: "Invalid OAuthScope value: \(value)"
+                debugDescription: "Invalid SignedJWT value: \(value)"
             )
         }
         self = instance
@@ -180,7 +180,7 @@ public struct UnsignedJWT: CustomStringConvertible, Codable, JWTShapeValidating 
         guard let instance = Self.init(validating: value) else {
             throw DecodingError.dataCorruptedError(
                 in: container,
-                debugDescription: "Invalid OAuthScope value: \(value)"
+                debugDescription: "Invalid UnsignedJWT value: \(value)"
             )
         }
         self = instance
