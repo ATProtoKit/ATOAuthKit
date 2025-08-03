@@ -334,6 +334,77 @@ public enum OAuthAuthorizationServerMetadataError: Error, CustomStringConvertibl
     }
 }
 
+/// Errors that can occur with respect to discoverable client IDs.
+public enum OAuthClientIDDiscoverableError: Error, LocalizedError, CustomStringConvertible {
+
+    /// The client ID provided doesn't have the "https://" protocol.
+    case invlaidURL
+
+    /// The client ID contains a username and/or password.
+    case credentialsDetected
+
+    /// The client ID provided does not contain a fragment.
+    case containsFragment
+
+    /// The client ID provided does not contain the JSON file name..
+    ///
+    /// The client ID must end with `/client-metadata.json`.
+    case invalidClientMetadataPathComponent
+
+    /// The client ID ends in a trailing slash (`/`)
+    case endsInTrailingSlash
+
+    /// The client ID provided is an IP address.
+    case containsIPAddress
+
+    /// The client ID's canonical form is not valid.
+    ///
+    /// - Parameters:
+    ///   - expectedValue: The value that's expected.
+    ///   - foundValue: The value that was found instead.
+    case incorrectCanonicalForm(expectedValue: String, foundValue: String)
+
+    /// The client ID provided contains a port component.
+    case containsPort
+
+    /// The client ID provided contains a query component.
+    case containsQuery
+
+    /// The client ID provided does not contain the JSON file name.
+    ///
+    /// The client ID must end with `/oauth-client-metadata.json`.
+    case invalidOAuthClientMetadataPathComponent
+
+    public var errorDescription: String? {
+        switch self {
+            case .invlaidURL:
+                return "The client ID URL is invalid."
+            case .credentialsDetected:
+                return "The client ID must not contain a username or password."
+            case .containsFragment:
+                return "The client ID must not contain a fragment component."
+            case .invalidClientMetadataPathComponent:
+                return "The client ID path component must be with `/client-metadata.json`."
+            case .endsInTrailingSlash:
+                return "The client ID must not end with a trailing slash."
+            case .containsIPAddress:
+                return "The client ID should not contain an IP address."
+            case .incorrectCanonicalForm(let expectedValue, let foundValue):
+                return "The client ID canonical form is incorrect. Expected: '\(expectedValue)', found: '\(foundValue)'."
+            case .containsPort:
+                return "The client ID should not contain a port component."
+            case .containsQuery:
+                return "The client ID must not contain a query component."
+            case .invalidOAuthClientMetadataPathComponent:
+                return "The client ID path component must be '/oauth-client-metadata.json'"
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 
