@@ -5,10 +5,10 @@
 //  Created by Christopher Jr Riley on 2025-07-26.
 //
 
-/// Enumeration of supported OAuth token types.
+/// An enumeration of supported OAuth token types.
 ///
 /// This enum provides a case-insensitive input with a normalized output.
-public enum OAuthTokenType: String, CaseIterable {
+public enum OAuthTokenType: String, Codable, CaseIterable {
 
     /// Demonstrating Proof-of-Possession token type.
     case dpop = "DPoP"
