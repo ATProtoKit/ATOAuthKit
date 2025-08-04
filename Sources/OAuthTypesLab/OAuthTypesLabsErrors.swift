@@ -405,6 +405,29 @@ public enum OAuthClientIDDiscoverableError: Error, LocalizedError, CustomStringC
     }
 }
 
+/// Errors that can occur with respect to protected resource metadata.
+public enum OAuthProtectedResourceMetadataError: Error, LocalizedError, CustomStringConvertible {
+
+    /// The resource Web URI contains at least one query component.
+    case containsQuery
+
+    /// The resource Web URI contains a fragment component.
+    case containsFragment
+
+    public var errorDescription: String? {
+        switch self {
+            case .containsQuery:
+                return "The resource web URI should not contain a query component."
+            case .containsFragment:
+                return "The resource web URI should not contain a fragment component."
+        }
+    }
+
+    public var description: String {
+        return errorDescription ?? String(describing: self)
+    }
+}
+
 /// Errors that can occur with respect to validations.
 public enum ValidationError: Error, LocalizedError, CustomStringConvertible {
 
