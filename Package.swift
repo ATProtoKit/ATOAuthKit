@@ -33,7 +33,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "OAuthTypesLab",
+            name: "OAuthTypes",
             dependencies: [
                 .product(name: "Jot", package: "jot")
             ]
