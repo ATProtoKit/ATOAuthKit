@@ -29,6 +29,7 @@ public struct RefreshTokenGrantTokenRequest: Codable {
     }
 
     enum CodingKeys: String, CodingKey {
+        case grantType = "grant_type"
         case refreshToken = "refresh_token"
     }
 }

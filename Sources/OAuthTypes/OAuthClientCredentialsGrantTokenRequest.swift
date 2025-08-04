@@ -6,7 +6,7 @@
 //
 
 /// A structure representing client credentials grant token requests for OAuth 2.0.
-public struct OAuthClientCredentialsGrantTokenRequest: Decodable {
+public struct OAuthClientCredentialsGrantTokenRequest: Codable {
 
     /// The grant type itself.
     ///
